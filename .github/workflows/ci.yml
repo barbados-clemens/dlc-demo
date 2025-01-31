@@ -46,4 +46,7 @@ jobs:
           docker context create cache-builder
           docker buildx create cache-builder --driver docker-container --use
 
-          docker buildx build --push -t "<image>:<tag>" -f <path-to-dockerfile> --cache-to type=registry,ref=<cache-image-name>,mode=max --cache-from type=registry,ref=<cache-image-name> .
+          docker buildx build --push -t "barbadosclemens/node-latest:dev" -f ./apps/demo/Dockerfile \
+            --cache-to type=registry,ref=barbadosclemens/cache-image:$GITHUB_REF_NAME,mode=max \
+            --cache-from type=registry,ref=barbadosclemens/cache-image:$GITHUB_REF_NAME \
+            --cache-from type=registry,ref=barbadosclemens/cache-image:latest .
